@@ -5,7 +5,7 @@
   const source=new URL(script.src),fixedRound=Number(source.searchParams.get('round')),fallbackRound=Number(source.searchParams.get('fallback'));
   const forced=[1,2,3].includes(fixedRound)?fixedRound:null,fallback=[1,2,3].includes(fallbackRound)?fallbackRound:null;
   const placement=script.dataset.placement||'floating',inline=placement==='inline'||placement==='buttons';
-  const configUrl=new URL('config.js',source);
+  const configUrl='https://cdn.jsdelivr.net/gh/xbaranova-neiro/prize-wheel-bizon-widget@main/config.js',pagesConfigUrl=new URL('config.js',source).href;
   const rounds=[
     {label:'ПОДАРОК ДЛЯ ВАС',prizes:[
       {title:'Золотой стандарт промптинга: 10 формул точных запросов к ИИ',description:'Практический гайд для маркетологов, экспертов и предпринимателей.',file:'1AebI8-wvOpULr8jOix98V1KqxdyGPjHv'},
@@ -44,12 +44,13 @@
   function showReady(){result.textContent='Нажмите кнопку — и колесо выберет ваш подарок';description.textContent='';message.textContent='';spin.hidden=false;spin.disabled=false;spin.classList.remove('busy');spin.innerHTML='<b>↻</b> Крутить колесо';download.hidden=true;}
   function showResult(index){const prize=rounds[round-1].prizes[index];result.textContent=prize.title;description.textContent=prize.description;message.textContent='';spin.hidden=true;download.href=fileUrl(prize.file);download.hidden=false;}
   function applyConfig(config){currentConfig=config;const next=forced||Number(config.activeRound)||1;if([1,2,3].includes(next)&&next!==round&&!busy){round=next;rotation=0;wheel.style.transition='none';wheel.style.transform='rotate(0deg)';requestAnimationFrame(()=>wheel.style.transition='transform 4s cubic-bezier(.12,.75,.18,1)');draw();}const settings=config.rounds?.[String(round)]||{};launch.textContent=settings.buttonText||'Крутить колесо';launch.hidden=!(settings.enabled===true);}
-  function loadConfig(){return new Promise((resolve,reject)=>{const loader=document.createElement('script');loader.src=configUrl.href+'?v='+Date.now();loader.async=true;loader.onload=()=>{loader.remove();const config=window.__BIZON_PRIZE_WHEEL_CONFIG__;config?resolve(config):reject(Error());};loader.onerror=()=>{loader.remove();reject(Error());};(document.head||document.documentElement).appendChild(loader);});}
+  function loadScriptConfig(url){return new Promise((resolve,reject)=>{window.__BIZON_PRIZE_WHEEL_CONFIG__=null;const loader=document.createElement('script');loader.src=url+(url.includes('?')?'&':'?')+'v='+Math.floor(Date.now()/3000);loader.async=true;loader.onload=()=>{loader.remove();const config=window.__BIZON_PRIZE_WHEEL_CONFIG__;config?resolve(config):reject(Error());};loader.onerror=()=>{loader.remove();reject(Error());};(document.head||document.documentElement).appendChild(loader);});}
+  async function loadConfig(){try{return await loadScriptConfig(configUrl);}catch{return loadScriptConfig(pagesConfigUrl);}}
   async function sync(){try{applyConfig(await loadConfig());}catch{if(!currentConfig&&!forced&&!fallback)launch.hidden=true;}}
   launch.addEventListener('click',()=>{draw();overlay.hidden=false;close.focus();});
   close.addEventListener('click',()=>{overlay.hidden=true;launch.focus();});
   overlay.addEventListener('click',event=>{if(event.target===overlay)overlay.hidden=true;});
   root.addEventListener('keydown',event=>{if(event.key==='Escape')overlay.hidden=true;});
   spin.addEventListener('click',()=>{if(busy||localStorage.getItem(storageKey())!==null)return;busy=true;spin.disabled=true;spin.classList.add('busy');spin.innerHTML='<b>↻</b> Колесо вращается…';message.textContent='Определяем ваш подарок…';const index=randomIndex(),target=360-(index+.5)*90;rotation=Math.ceil(rotation/360)*360+1440+target;wheel.style.transform=`rotate(${rotation}deg)`;setTimeout(()=>{localStorage.setItem(storageKey(),String(index));busy=false;showResult(index,false);},4000);});
-  draw();if(forced||fallback){launch.textContent='Крутить колесо';launch.hidden=false;}sync();setInterval(sync,15000);
+  draw();if(forced||fallback){launch.textContent='Крутить колесо';launch.hidden=false;}sync();setInterval(sync,3000);
 })();
