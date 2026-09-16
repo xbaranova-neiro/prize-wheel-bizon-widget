@@ -7,19 +7,19 @@
   const placement=script.dataset.placement||'floating',inline=placement==='inline'||placement==='buttons';
   const configUrl=new URL('config.js',source);
   const rounds=[
-    {label:'ПЕРВАЯ ПРОКРУТКА',prizes:[
+    {label:'ПОДАРОК ДЛЯ ВАС',prizes:[
       {title:'Золотой стандарт промптинга: 10 формул точных запросов к ИИ',description:'Практический гайд для маркетологов, экспертов и предпринимателей.',file:'1AebI8-wvOpULr8jOix98V1KqxdyGPjHv'},
       {title:'Нейросети без VPN и зарубежных карт: актуальный гид 2026–2027',description:'Практическое руководство по бесперебойному доступу к передовым ИИ-моделям из России.',file:'1VJR-JI_FwMOTpOhIPwtTNkyedTsRqxGU'},
       {title:'20 услуг, которые вы сможете продавать через вайб-кодинг',description:'Что создавать, кому предлагать в России и сколько на этом зарабатывать.',file:'1H7k4hvx__l5ypCi_8aovd8vAUAJyaxRx'},
       {title:'План Б: как не потерять проекты и данные из-за блокировок',description:'Система, которая вернёт вам контроль, если сервис закроется, аккаунт заблокируют или устройство сломается.',file:'1n5cc1NRbwOmQIJczsR1ZTvvlMdSab1ZX'}
     ]},
-    {label:'ВТОРАЯ ПРОКРУТКА',prizes:[
+    {label:'ПОДАРОК ДЛЯ ВАС',prizes:[
       {title:'Промпт-пак «ИИ-маркетолог»',description:'Глубокий анализ целевой аудитории и конкурентов за 10 минут.',file:'19rBzo9dHKUdAlEZjt8XGwiJME22HG9Mf'},
       {title:'Банк промптов «Контент-завод: 30 шаблонов вирусных постов и рилс»',description:'Готовые структуры сценариев и текстов для соцсетей: от кликбейтного хука до продажи через кейс.',file:'1qfKlrIbBCzYhimNXUbuQ4G7v8pBAG-wE'},
       {title:'30 идей первого проекта на вайб-кодинге',description:'Шесть направлений, в которых новичок может быстро собрать заметный и полезный результат.',file:'184mDwcx8AYSvXSLxhlu9hx8RqEm37SRX'},
       {title:'20 проектов для себя, семьи, работы или на продажу',description:'Конкретные проекты, которые можно показать и использовать.',file:'11oXsWmA8XTsLCZGyAge4ysozDALyaglp'}
     ]},
-    {label:'ТРЕТЬЯ ПРОКРУТКА',prizes:[
+    {label:'ПОДАРОК ДЛЯ ВАС',prizes:[
       {title:'Шпаргалка «Топ-15 фатальных ошибок в общении с нейросетями»',description:'Практический гайд для работы с ChatGPT, Claude, GigaChat, Qwen и другими ИИ-моделями.',file:'1r_-6_4JEWF4PNWrSEmPlS9vEx8NaalHy'},
       {title:'Матрица делегирования: 20 рутинных задач бизнеса, которые забирает агент',description:'Готовый аудит задач, которые можно сразу передать роботу.',file:'1ymbAeg9MIGCjqCIWTdaomRJ1RFk-puN0'},
       {title:'Конструктор промптов: как объяснить ИИ, что вы хотите создать',description:'Формула запроса, превращающая идею в понятное техническое задание для ИИ.',file:'1ZdRTMnMKbaGnZKk5oba_xSBub0a95c8l'},
@@ -51,5 +51,5 @@
   overlay.addEventListener('click',event=>{if(event.target===overlay)overlay.hidden=true;});
   root.addEventListener('keydown',event=>{if(event.key==='Escape')overlay.hidden=true;});
   spin.addEventListener('click',()=>{if(busy||localStorage.getItem(storageKey())!==null)return;busy=true;spin.disabled=true;spin.classList.add('busy');spin.innerHTML='<b>↻</b> Колесо вращается…';message.textContent='Определяем ваш подарок…';const index=randomIndex(),target=360-(index+.5)*90;rotation=Math.ceil(rotation/360)*360+1440+target;wheel.style.transform=`rotate(${rotation}deg)`;setTimeout(()=>{localStorage.setItem(storageKey(),String(index));busy=false;showResult(index,false);},4000);});
-  draw();if(forced||fallback){launch.textContent=rounds[round-1].label+' — получить подарок';launch.hidden=false;}sync();setInterval(sync,15000);
+  draw();if(forced||fallback){launch.textContent='Получить подарок';launch.hidden=false;}sync();setInterval(sync,15000);
 })();
