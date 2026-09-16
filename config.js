@@ -1,14 +1,14 @@
 window.__BIZON_PRIZE_WHEEL_CONFIG__={
-  "version": 4,
-  "activeRound": 2,
+  "version": 7,
+  "activeRound": 1,
   "pollSeconds": 15,
   "rounds": {
     "1": {
-      "enabled": false,
+      "enabled": true,
       "buttonText": "Получить подарок"
     },
     "2": {
-      "enabled": true,
+      "enabled": false,
       "buttonText": "Получить подарок"
     },
     "3": {
