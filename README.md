@@ -34,6 +34,12 @@
 
 ## Удалённое управление
 
+Основная панель: <https://xbaranova-neiro.github.io/prize-wheel-bizon-widget/admin.html>
+
+При первом открытии панели нужен fine-grained GitHub token с доступом только к репозиторию `prize-wheel-bizon-widget` и разрешением **Contents: Read and write**. Токен вводится непосредственно в браузере и не отправляется на сторонние серверы.
+
+GitHub Actions остаётся запасным способом управления:
+
 Откройте в GitHub вкладку **Actions**, выберите **Управление виджетом Bizon**, нажмите **Run workflow** и выберите:
 
 - `round-1` — включить первую прокрутку;
