@@ -10,6 +10,12 @@
 <script src="https://xbaranova-neiro.github.io/prize-wheel-bizon-widget/widget.js" defer></script>
 ```
 
+Для Bizon рекомендуется встроенный режим: кнопка появится в том месте HTML-блока, куда вставлен код, с отступом 18 пикселей сверху:
+
+```html
+<script src="https://xbaranova-neiro.github.io/prize-wheel-bizon-widget/widget.js" data-placement="inline" defer></script>
+```
+
 ## Фиксированные коды
 
 Первая прокрутка:

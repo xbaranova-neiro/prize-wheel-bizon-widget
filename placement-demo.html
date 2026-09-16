@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Проверка размещения кнопки</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;padding:28px 14px;background:#171126;color:#fff;font:16px Arial,sans-serif}.room{width:min(760px,100%);margin:auto}.video{aspect-ratio:16/9;display:grid;place-items:center;border-radius:22px;background:linear-gradient(135deg,#38265f,#694aa3);font-size:24px;font-weight:800}.native{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}.native button{min-height:48px;padding:10px 20px;border:0;border-radius:12px;background:#fff;color:#3f2c69;font-weight:800}.note{margin-top:28px;color:#b9afca;text-align:center;line-height:1.5}
+  </style>
+</head>
+<body>
+  <main class="room">
+    <div class="video">Область эфира Bizon</div>
+    <div class="native"><button>Кнопка Bizon 1</button><button>Кнопка Bizon 2</button></div>
+    <script src="widget.js" data-placement="inline" defer></script>
+    <p class="note">Фиолетовая кнопка колеса появляется ниже стандартных кнопок с небольшим отступом.</p>
+  </main>
+</body>
+</html>
