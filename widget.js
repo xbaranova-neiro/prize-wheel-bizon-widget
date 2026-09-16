@@ -6,7 +6,7 @@
   const forced=[1,2,3].includes(fixedRound)?fixedRound:null,fallback=[1,2,3].includes(fallbackRound)?fallbackRound:null;
   const placement=script.dataset.placement||'floating',inline=placement==='inline'||placement==='buttons';
   if(placement==='buttons'&&!document.getElementById('bizon-prize-wheel-button-styles')){const styles=document.createElement('link');styles.id='bizon-prize-wheel-button-styles';styles.rel='stylesheet';styles.href=new URL('bizon-buttons.css?v=2',source).href;(document.head||document.documentElement).appendChild(styles);}
-  const configUrl='https://cdn.jsdelivr.net/gh/xbaranova-neiro/prize-wheel-bizon-widget@main/config.js',pagesConfigUrl=new URL('config.js',source).href;
+  const configUrl='https://raw.githubusercontent.com/xbaranova-neiro/prize-wheel-bizon-widget/main/config.js',pagesConfigUrl=new URL('config.js',source).href,configPrefix='window.__BIZON_PRIZE_WHEEL_CONFIG__=';
   const rounds=[
     {label:'ПОДАРОК ДЛЯ ВАС',prizes:[
       {title:'Золотой стандарт промптинга: 10 формул точных запросов к ИИ',description:'Практический гайд для маркетологов, экспертов и предпринимателей.',file:'1AebI8-wvOpULr8jOix98V1KqxdyGPjHv'},
@@ -46,7 +46,7 @@
   function showResult(index){const prize=rounds[round-1].prizes[index];result.textContent=prize.title;description.textContent=prize.description;message.textContent='';spin.hidden=true;download.href=fileUrl(prize.file);download.hidden=false;}
   function applyConfig(config){currentConfig=config;const next=forced||Number(config.activeRound)||1;if([1,2,3].includes(next)&&next!==round&&!busy){round=next;rotation=0;wheel.style.transition='none';wheel.style.transform='rotate(0deg)';requestAnimationFrame(()=>wheel.style.transition='transform 4s cubic-bezier(.12,.75,.18,1)');draw();}const settings=config.rounds?.[String(round)]||{};launch.textContent=settings.buttonText||'Крутить колесо';launch.hidden=!(settings.enabled===true);}
   function loadScriptConfig(url){return new Promise((resolve,reject)=>{window.__BIZON_PRIZE_WHEEL_CONFIG__=null;const loader=document.createElement('script');loader.src=url+(url.includes('?')?'&':'?')+'v='+Math.floor(Date.now()/3000);loader.async=true;loader.onload=()=>{loader.remove();const config=window.__BIZON_PRIZE_WHEEL_CONFIG__;config?resolve(config):reject(Error());};loader.onerror=()=>{loader.remove();reject(Error());};(document.head||document.documentElement).appendChild(loader);});}
-  async function loadConfig(){try{return await loadScriptConfig(configUrl);}catch{return loadScriptConfig(pagesConfigUrl);}}
+  async function loadConfig(){try{const response=await fetch(configUrl+'?v='+Math.floor(Date.now()/3000),{cache:'no-store'});if(!response.ok)throw Error();const text=(await response.text()).trim();if(!text.startsWith(configPrefix))throw Error();return JSON.parse(text.slice(configPrefix.length).replace(/;$/,''));}catch{return loadScriptConfig(pagesConfigUrl);}}
   async function sync(){try{applyConfig(await loadConfig());}catch{if(!currentConfig&&!forced&&!fallback)launch.hidden=true;}}
   launch.addEventListener('click',()=>{draw();overlay.hidden=false;close.focus();});
   close.addEventListener('click',()=>{overlay.hidden=true;launch.focus();});
