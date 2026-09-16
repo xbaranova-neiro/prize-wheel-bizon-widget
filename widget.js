@@ -2,8 +2,8 @@
   'use strict';
   const script=document.currentScript;
   if(!script||document.getElementById('bizon-prize-wheel-host'))return;
-  const source=new URL(script.src),fixedRound=Number(source.searchParams.get('round'));
-  const forced=[1,2,3].includes(fixedRound)?fixedRound:null;
+  const source=new URL(script.src),fixedRound=Number(source.searchParams.get('round')),fallbackRound=Number(source.searchParams.get('fallback'));
+  const forced=[1,2,3].includes(fixedRound)?fixedRound:null,fallback=[1,2,3].includes(fallbackRound)?fallbackRound:null;
   const placement=script.dataset.placement||'floating',inline=placement==='inline'||placement==='buttons';
   const configUrl=new URL('config.js',source);
   const rounds=[
@@ -36,7 +36,7 @@
     :host([data-placement="inline"]){display:block!important;width:100%!important;clear:both!important;position:relative!important;z-index:2!important}:host([data-placement="inline"]) .launch{position:relative;left:auto;right:auto;bottom:auto;display:block;margin:18px auto 0;width:min(360px,calc(100% - 24px))}:host([data-placement="inline"]) .launch[hidden]{display:none}
   </style><button class="launch" type="button" hidden>Получить подарок</button><div class="overlay" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="pw-title"><button class="close" type="button" aria-label="Закрыть">×</button><div class="visual"><p class="eyebrow"></p><h2 id="pw-title">Ваш подарок уже здесь</h2><div class="wheel-wrap"><div class="pointer"></div><div class="wheel"></div><div class="hub">✦</div></div></div><div class="action"><p class="overline">ОДНА ПОПЫТКА • ОДИН ПОДАРОК</p><h3 class="result">Нажмите кнопку — и колесо выберет ваш подарок</h3><p class="description"></p><button class="spin" type="button"><b>↻</b> Крутить колесо</button><a class="download" target="_blank" rel="noopener" hidden><b>↓</b> Скачать подарок</a><p class="message" role="status" aria-live="polite"></p><div class="prizes"></div></div></section></div>`;
   const $=selector=>root.querySelector(selector),launch=$('.launch'),overlay=$('.overlay'),close=$('.close'),wheel=$('.wheel'),spin=$('.spin'),download=$('.download'),result=$('.result'),description=$('.description'),message=$('.message'),eyebrow=$('.eyebrow'),prizeList=$('.prizes');
-  let round=forced||1,busy=false,rotation=0,currentConfig=null;
+  let round=forced||fallback||1,busy=false,rotation=0,currentConfig=null;
   const storageKey=()=>`bizon-prize-wheel-v1-round-${round}`;
   const fileUrl=id=>`https://drive.google.com/uc?export=download&id=${id}`;
   function randomIndex(){const value=new Uint32Array(1);crypto.getRandomValues(value);return value[0]%4;}
@@ -45,11 +45,11 @@
   function showResult(index){const prize=rounds[round-1].prizes[index];result.textContent=prize.title;description.textContent=prize.description;message.textContent='';spin.hidden=true;download.href=fileUrl(prize.file);download.hidden=false;}
   function applyConfig(config){currentConfig=config;const next=forced||Number(config.activeRound)||1;if([1,2,3].includes(next)&&next!==round&&!busy){round=next;rotation=0;wheel.style.transition='none';wheel.style.transform='rotate(0deg)';requestAnimationFrame(()=>wheel.style.transition='transform 4s cubic-bezier(.12,.75,.18,1)');draw();}const settings=config.rounds?.[String(round)]||{};launch.textContent=settings.buttonText||'Получить подарок';launch.hidden=!(settings.enabled===true);}
   function loadConfig(){return new Promise((resolve,reject)=>{const loader=document.createElement('script');loader.src=configUrl.href+'?v='+Date.now();loader.async=true;loader.onload=()=>{loader.remove();const config=window.__BIZON_PRIZE_WHEEL_CONFIG__;config?resolve(config):reject(Error());};loader.onerror=()=>{loader.remove();reject(Error());};(document.head||document.documentElement).appendChild(loader);});}
-  async function sync(){try{applyConfig(await loadConfig());}catch{if(!currentConfig&&!forced)launch.hidden=true;}}
+  async function sync(){try{applyConfig(await loadConfig());}catch{if(!currentConfig&&!forced&&!fallback)launch.hidden=true;}}
   launch.addEventListener('click',()=>{draw();overlay.hidden=false;close.focus();});
   close.addEventListener('click',()=>{overlay.hidden=true;launch.focus();});
   overlay.addEventListener('click',event=>{if(event.target===overlay)overlay.hidden=true;});
   root.addEventListener('keydown',event=>{if(event.key==='Escape')overlay.hidden=true;});
   spin.addEventListener('click',()=>{if(busy||localStorage.getItem(storageKey())!==null)return;busy=true;spin.disabled=true;spin.classList.add('busy');spin.innerHTML='<b>↻</b> Колесо вращается…';message.textContent='Определяем ваш подарок…';const index=randomIndex(),target=360-(index+.5)*90;rotation=Math.ceil(rotation/360)*360+1440+target;wheel.style.transform=`rotate(${rotation}deg)`;setTimeout(()=>{localStorage.setItem(storageKey(),String(index));busy=false;showResult(index,false);},4000);});
-  draw();if(forced){launch.textContent=rounds[round-1].label+' — получить подарок';launch.hidden=false;}sync();setInterval(sync,15000);
+  draw();if(forced||fallback){launch.textContent=rounds[round-1].label+' — получить подарок';launch.hidden=false;}sync();setInterval(sync,15000);
 })();
