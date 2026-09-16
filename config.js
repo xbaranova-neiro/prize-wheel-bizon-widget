@@ -5,15 +5,15 @@ window.__BIZON_PRIZE_WHEEL_CONFIG__={
   "rounds": {
     "1": {
       "enabled": true,
-      "buttonText": "Получить подарок"
+      "buttonText": "Крутить колесо"
     },
     "2": {
       "enabled": false,
-      "buttonText": "Получить подарок"
+      "buttonText": "Крутить колесо"
     },
     "3": {
       "enabled": false,
-      "buttonText": "Получить подарок"
+      "buttonText": "Крутить колесо"
     }
   }
 };
