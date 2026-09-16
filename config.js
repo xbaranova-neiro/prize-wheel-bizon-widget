@@ -1,5 +1,5 @@
 window.__BIZON_PRIZE_WHEEL_CONFIG__={
-  "version": 13,
+  "version": 14,
   "activeRound": null,
   "pollSeconds": 3,
   "rounds": {
