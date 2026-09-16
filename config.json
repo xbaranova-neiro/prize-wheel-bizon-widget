@@ -1,6 +1,6 @@
 {
-  "version": 5,
-  "activeRound": 3,
+  "version": 6,
+  "activeRound": null,
   "pollSeconds": 15,
   "rounds": {
     "1": {
@@ -12,7 +12,7 @@
       "buttonText": "Вторая прокрутка — получить подарок"
     },
     "3": {
-      "enabled": true,
+      "enabled": false,
       "buttonText": "Третья прокрутка — получить подарок"
     }
   }
