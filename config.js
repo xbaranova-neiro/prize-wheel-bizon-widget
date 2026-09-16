@@ -1,14 +1,14 @@
 window.__BIZON_PRIZE_WHEEL_CONFIG__={
-  "version": 11,
-  "activeRound": 1,
+  "version": 12,
+  "activeRound": 2,
   "pollSeconds": 3,
   "rounds": {
     "1": {
-      "enabled": true,
+      "enabled": false,
       "buttonText": "Крутить колесо"
     },
     "2": {
-      "enabled": false,
+      "enabled": true,
       "buttonText": "Крутить колесо"
     },
     "3": {
