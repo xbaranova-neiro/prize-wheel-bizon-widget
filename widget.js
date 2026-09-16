@@ -5,6 +5,7 @@
   const source=new URL(script.src),fixedRound=Number(source.searchParams.get('round')),fallbackRound=Number(source.searchParams.get('fallback'));
   const forced=[1,2,3].includes(fixedRound)?fixedRound:null,fallback=[1,2,3].includes(fallbackRound)?fallbackRound:null;
   const placement=script.dataset.placement||'floating',inline=placement==='inline'||placement==='buttons';
+  if(placement==='buttons'&&!document.getElementById('bizon-prize-wheel-button-styles')){const styles=document.createElement('link');styles.id='bizon-prize-wheel-button-styles';styles.rel='stylesheet';styles.href=new URL('bizon-buttons.css?v=2',source).href;(document.head||document.documentElement).appendChild(styles);}
   const configUrl='https://cdn.jsdelivr.net/gh/xbaranova-neiro/prize-wheel-bizon-widget@main/config.js',pagesConfigUrl=new URL('config.js',source).href;
   const rounds=[
     {label:'ПОДАРОК ДЛЯ ВАС',prizes:[
