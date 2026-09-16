@@ -4,7 +4,7 @@
 
 ## Общий управляемый код
 
-Этот вариант получает номер активной прокрутки и видимость кнопки из `config.json`:
+Этот вариант получает номер активной прокрутки и видимость кнопки из `config.js`:
 
 ```html
 <script src="https://xbaranova-neiro.github.io/prize-wheel-bizon-widget/widget.js" defer></script>

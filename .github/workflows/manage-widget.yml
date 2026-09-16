@@ -27,17 +27,19 @@ jobs:
         run: |
           node <<'NODE'
           const fs = require('fs');
-          const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+          const prefix = 'window.__BIZON_PRIZE_WHEEL_CONFIG__=';
+          const source = fs.readFileSync('config.js', 'utf8').trim();
+          const config = JSON.parse(source.slice(prefix.length).replace(/;$/, ''));
           const match = process.env.WIDGET_STATE.match(/^round-(\d)$/);
           config.activeRound = match ? Number(match[1]) : null;
           for (const key of Object.keys(config.rounds)) config.rounds[key].enabled = key === String(config.activeRound);
           config.version += 1;
-          fs.writeFileSync('config.json', JSON.stringify(config, null, 2) + '\n');
+          fs.writeFileSync('config.js', prefix + JSON.stringify(config, null, 2) + ';\n');
           NODE
       - name: Опубликовать изменение
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add config.json
+          git add config.js
           git commit -m "control: set widget to ${{ inputs.state }}" || exit 0
           git push
