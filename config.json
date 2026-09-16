@@ -1,10 +1,19 @@
 {
-  "version": 1,
+  "version": 2,
   "activeRound": 1,
   "pollSeconds": 15,
   "rounds": {
-    "1": {"enabled": true, "buttonText": "Первая прокрутка — получить подарок"},
-    "2": {"enabled": false, "buttonText": "Вторая прокрутка — получить подарок"},
-    "3": {"enabled": false, "buttonText": "Третья прокрутка — получить подарок"}
+    "1": {
+      "enabled": true,
+      "buttonText": "Первая прокрутка — получить подарок"
+    },
+    "2": {
+      "enabled": false,
+      "buttonText": "Вторая прокрутка — получить подарок"
+    },
+    "3": {
+      "enabled": false,
+      "buttonText": "Третья прокрутка — получить подарок"
+    }
   }
 }
